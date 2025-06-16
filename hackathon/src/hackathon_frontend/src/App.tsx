@@ -111,7 +111,7 @@ const App: React.FC = () => {
   <main className="relative max-w-[1728px] w-full flex z-10">
     <div className="pt-20 z-30 w-full h-full">
       {/* Glassmorphism Card with custom size (W: 700px, H: 774px) */}
-      <div className="bg-gray/50 backdrop-blur-lg p-8 rounded-[48px] shadow-xl w-[600px] h-[700px] mx-auto border-2 border-white/20 flex flex-col">
+      <div className="bg-gray/50 backdrop-blur-lg p-8 rounded-[48px] shadow-xl w-[600px] h-[700px] mx-auto border-2 border-white/30 flex flex-col">
         {/* Logo */}
         <div className="mb-10   flex justify-start">
           <img src={Logo} alt="Logo" className="w-60" /> {/* Adjust size if needed */}
@@ -119,7 +119,7 @@ const App: React.FC = () => {
 
         {/* Title */}
         <h1 className="text-[60px] font-bold text-left text-[#145374] mb-6" style={{ fontFamily: 'Helvetica Neue, Arial, sans-serif' }}>
-          Login with Internet Identity
+          Login With Internet Identity
         </h1>
 
         {/* Button */}
