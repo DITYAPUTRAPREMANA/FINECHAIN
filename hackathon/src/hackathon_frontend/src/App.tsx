@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import { AuthClient } from '@dfinity/auth-client';
-
 import { createActor } from 'declarations/hackathon_backend';
-
 import { canisterId } from 'declarations/hackathon_backend/index.js';
 
 // Define types for the state
@@ -22,13 +19,19 @@ const identityProvider =
     : 'http://rdmx6-jaaaa-aaaaa-aaadq-cai.localhost:4943'; // Local
 
 // Reusable button component with typed props
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
   children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, children }) => (
-  <button onClick={onClick}>{children}</button>
+const Button: React.FC<ButtonProps> = ({ onClick, children, className = '', ...props }) => (
+  <button
+    onClick={onClick}
+    className={`px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors ${className}`}
+    {...props} // Spread the other button props like type, disabled, etc.
+  >
+    {children}
+  </button>
 );
 
 const App: React.FC = () => {
@@ -91,10 +94,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Who Am I?</h1>
-      <div id="info-box" className="info-box">
-        <div className="info-content">
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-4">Who Am I?</h1>
+      <div id="info-box" className="bg-gray-100 p-4 rounded-lg shadow-lg mb-4">
+        <div className="info-content text-sm text-gray-700">
           <p>
             <i className="fas fa-info-circle"></i> A <strong>principal</strong> is a unique identifier in the Internet
             Computer ecosystem.
@@ -120,12 +123,14 @@ const App: React.FC = () => {
         <Button onClick={logout}>Logout</Button>
       )}
 
-      <Button onClick={whoami}>Whoami</Button>
+      <Button onClick={whoami} className="mt-4">
+        Whoami
+      </Button>
 
       {state.principal && (
-        <div>
-          <h2>Your principal ID is:</h2>
-          <h4>{state.principal}</h4>
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold">Your principal ID is:</h2>
+          <h4 className="text-lg text-blue-600">{state.principal}</h4>
         </div>
       )}
     </div>

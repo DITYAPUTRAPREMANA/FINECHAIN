@@ -16,6 +16,7 @@
     "src/hackathon_frontend"
   ],
   "dependencies": {
+    "@dfinity/auth-client": "^2.4.1",
     "vite": "^6.3.5"
   },
   "devDependencies": {
