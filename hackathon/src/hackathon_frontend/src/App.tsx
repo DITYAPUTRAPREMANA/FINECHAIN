@@ -5,6 +5,7 @@ import { canisterId } from 'declarations/hackathon_backend/index.js';
 
 // Import logo
 import Logo from 'hackathon_frontend/asset/logo.png'; // Adjust the path as needed
+import GoogleLogo from 'hackathon_frontend/asset/google.png';
 
 // Define types for the state
 interface AppState {
@@ -123,10 +124,22 @@ const App: React.FC = () => {
         </h1>
 
         {/* Button */}
-        <div className="mb-4 text-center">
+        <div className="mb-30 text-center">
           <Button onClick={login}>Login</Button>
         </div>
+        {/* Title */}
+        <h1 className="text-[20px] font-bold text-left text-[#145374] mb-6" style={{ fontFamily: 'roboto, Arial, sans-serif' }}>
+          Continue With Another Account?
+        </h1>
+        {/* Button */}
+        <div className="mb-10 text-center">
+          <Button onClick={login} style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', width: '100%', height: '55px', justifyContent: 'center' }}>
+            <img src={GoogleLogo} alt="Google logo" style={{ width: 34, height: 34 }} />
+            Google
+          </Button>
+        </div>
       </div>
+      
 
       {state.principal && (
         <div className="mt-6 text-center">
