@@ -15,11 +15,11 @@ ReactDOM.createRoot(rootElement).render(
     <Template>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HeroDashboard />} />
           <Route path="/payments" element={<PaymentPage />} />
+          <Route path="/fines" element={<FinesDashboard />} />
         </Routes>
       </BrowserRouter>
-      <HeroDashboard />
-      <FinesDashboard />
     </Template>
   </React.StrictMode>
 )
