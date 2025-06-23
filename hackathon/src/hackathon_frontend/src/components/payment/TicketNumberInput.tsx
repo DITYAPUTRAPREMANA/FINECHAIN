@@ -1,6 +1,6 @@
 export default function TicketNumberInput() {
   return (
-    <div className="w-full max-w-lg rounded-xl overflow-hidden bg-white/20 backdrop-blur-sm">
+    <div className="w-full max-w-md rounded-xl overflow-hidden bg-white/20 backdrop-blur-sm">
       <div className="bg-navy text-lg text-center text-white font-bold px-4 py-3">
         <p>Enter ticket number</p>
       </div>
