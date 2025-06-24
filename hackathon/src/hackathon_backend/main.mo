@@ -1,5 +1,12 @@
-actor {
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
-  };
-};
+import Fines "Fines";
+
+actor HackathonBackend {
+
+    public type Fine = Fines.Fine;
+
+    private stable var fines: [Fine] = Fines.initialFines;
+
+    public query func getAllFines() : async [Fine] {
+        return fines;
+    };
+}

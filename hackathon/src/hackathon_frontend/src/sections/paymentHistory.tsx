@@ -1,10 +1,11 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import TanstackTable from '../components/tanstack-table';
-
+import {hackathon_backend} from 'declarations/hackathon_backend';   
 import {
     ColumnDef,
     createColumnHelper,
 } from '@tanstack/react-table'
+import { set } from 'react-hook-form';
 
 type PaidFine = {
     letterNumber: string;
@@ -165,9 +166,27 @@ const PaymentHistoryDashboard = () => {
     //pagination
     const [pageIndex, setPageIndex] = useState(0);
     const pageSize = 10;
-
+    const [paidFinesData, setPaidFinesData] = useState<PaidFine[]>([]);
+    
+    useEffect(() => {
+        const fetchFines = async () => {
+            try {
+                const fines = await hackathon_backend.getAllFines();
+                setPaidFinesData(fines.map(fine => ({
+                    letterNumber: fine.letterNumber,
+                    institution: fine.institution,
+                    address: fine.address,
+                    callCenter: fine.callCenter,
+                })));
+            } catch (error) {
+                console.error("Error fetching paid fines:", error);
+            }
+        };
+        fetchFines();
+    }, []);
     const paginatedData = paidFinesData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
     const maxPage = Math.ceil(paidFinesData.length / pageSize);
+    
     return (
         <div className="w-full h-full p-8 md:p-14">
             <div className="w-full h-full py-10 px-8 lg:px-12 bg-gradient-to-br from-[#E0F7FA}/70 to-[#FFF8E1]/70 backdroo-blur-md shadow-lg rounded-3xl space-y-8 border-2 border-white/50">
@@ -182,7 +201,7 @@ const PaymentHistoryDashboard = () => {
                 </div>
 
                 {/* Table with Tanstack */}
-                <TanstackTable<PaidFine> columns={columns} data={paidFinesData} pageIndex={pageIndex} />
+                <TanstackTable<PaidFine> columns={columns} data={paginatedData} pageIndex={pageIndex} />
 
                 {/* Pagination Controls */}
 
