@@ -117,8 +117,8 @@ const App: React.FC = () => {
 
   <main className="relative max-w-[1728px] w-full flex z-10">
     <div className="pt-20 z-30 w-full h-full">
-      <div className="bg-gray/50 backdrop-blur-lg p-8 rounded-[48px] shadow-xl w-[600px] h-[700px] mx-auto border-2 border-white/30 flex flex-col">
-        <div className="mb-10   flex justify-start">
+      <div className="bg-gray/50 backdrop-blur-lg p-8 rounded-[48px] shadow-xl w-[600px] h-[600px] mx-auto border-2 border-white/30 flex flex-col">
+        <div className="mb-25   flex justify-start">
           <img src={Logo} alt="Logo" className="w-60" />
         </div>
 
@@ -128,20 +128,6 @@ const App: React.FC = () => {
 
         <div className="mb-30 text-center">
           <Button onClick={login}>Login</Button>
-        </div>
-
-        <h1 className="text-[20px] font-bold text-left text-[#145374] mb-6" style={{ fontFamily: 'roboto, Arial, sans-serif' }}>
-          Continue With Another Account?
-        </h1>
-
-        <div className="mb-10 text-center">
-          <Button
-            onClick={() => googleLogin()}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', width: '100%', height: '55px', justifyContent: 'center' }}
-          >
-            <img src={GoogleLogo} alt="Google logo" style={{ width: 34, height: 34 }} />
-            Google
-          </Button>
         </div>
       </div>
       
