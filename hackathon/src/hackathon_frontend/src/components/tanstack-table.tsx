@@ -1,4 +1,3 @@
-import { IntClass } from '@dfinity/candid/lib/cjs/idl';
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import {
     ColumnDef,
@@ -10,12 +9,13 @@ import {
 import React from 'react';
 
 type TableProps<T> = {
-  columns: ColumnDef<T, unknown>[];
-  data: T[];
-  pageIndex: number;
+    columns: ColumnDef<T, unknown>[];
+    data: T[];
+    pageIndex: number;
 };
 
-function TanstackTable<T>({ columns, data, pageIndex}: TableProps<T>) {
+
+function TanstackTable<T>({ columns, data, pageIndex }: TableProps<T>) {
     const [pageSize, setPageSize] = React.useState(10);
 
     const table = useReactTable({
