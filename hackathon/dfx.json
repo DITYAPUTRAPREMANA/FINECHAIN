@@ -22,5 +22,9 @@
     }
   },
   "output_env_file": ".env",
-  "version": 1
+  "version": 1,
+  "dependencies": {
+    "base": "https://github.com/dfinity/motoko-base#master",
+    "serde": "https://github.com/dfinity/motoko-serde#master"
+  }
 }

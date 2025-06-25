@@ -14,5 +14,8 @@
   "type": "module",
   "workspaces": [
     "src/hackathon_frontend"
-  ]
+  ],
+  "dependencies": {
+    "localStorage": "^1.0.4"
+  }
 }
