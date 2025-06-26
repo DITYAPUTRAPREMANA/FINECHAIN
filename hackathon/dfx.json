@@ -4,13 +4,13 @@
       "main": "src/hackathon_backend/main.mo",
       "type": "motoko"
     },
+    "transaction": {
+      "main": "src/transaction/main.mo",
+      "type": "motoko"
+    },
     "hackathon_frontend": {
-      "dependencies": [
-        "hackathon_backend"
-      ],
-      "source": [
-        "src/hackathon_frontend/dist"
-      ],
+      "dependencies": ["hackathon_backend", "transaction"],
+      "source": ["src/hackathon_frontend/dist"],
       "type": "assets",
       "workspace": "hackathon_frontend"
     }
