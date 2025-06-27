@@ -80,7 +80,7 @@ const FinesPage = () => {
     const maxPage = Math.ceil(filteredData.length / pageSize);
 
     return (
-        <div className="max-w-screen mt-8 mb-20 space-y-8 w-full py-14 px-8 lg:px-20 bg-gradient-to-br from-[#B4B4B4]/35 to-[#FFE0BD]/35 backdrop-blur-3xl shadow-lg">
+        <div className="max-w-screen mb-20 space-y-8 w-full py-14 px-8 lg:px-20 bg-gradient-to-br from-[#B4B4B4]/35 to-[#FFE0BD]/35 backdrop-blur-3xl rounded-b-4xl shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between text-[#145374] gap-4">
                 <h1 className="font-bold text-3xl">
                     Indonesian Fine List
