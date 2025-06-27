@@ -4,6 +4,7 @@ import Int "mo:base/Int";
 import Debug "mo:base/Debug";
 import Blob "mo:base/Blob";
 import Text "mo:base/Text";
+import Time "mo:base/Time";
 import IC "ic:aaaaa-aa";
 
 actor {
@@ -21,11 +22,10 @@ actor {
     vehicleType : Text;
     merk : Text;
     status : Text;
+    transactionId : ?Text;
     vehicleColor : Text;
     createdAt : Int
   };
-
-  stable var latestData : Text = "";
 
   stable var fines : [Fine] = [];
 
@@ -35,6 +35,12 @@ actor {
 
   public query func getFines() : async [Fine] {
     return fines
+  };
+
+  stable var latestData : Text = "";
+
+  public query func getLatestData() : async Text {
+    latestData
   };
 
   public query func transform(arg : { context : Blob; response : IC.http_request_result }) : async IC.http_request_result {
@@ -76,8 +82,74 @@ actor {
     body_text
   };
 
-  public query func getLatestData() : async Text {
-    latestData
+  public query func getFineDetail(letterNumber : Text) : async ?Fine {
+    for (fine in fines.vals()) {
+      if (fine.letterNumber == letterNumber) {
+        return ?fine
+      }
+    };
+    return null
+  };
+
+  public type ChangeLog = {
+    letterNumber : Text;
+    fieldChanged : Text;
+    oldValue : Text;
+    newValue : Text;
+    updatedAt : Int
+  };
+
+  stable var changeLogs : [ChangeLog] = [];
+
+  public func updateFineStatus(letterNumber : Text, newStatus : Text, newTransactionId : ?Text) : async Bool {
+    var updated = false;
+    let currentTime = Time.now() / 1_000_000;
+    var changed = "status";
+
+    if (Option.isSome(newTransactionId)) {
+      changed := "status and transaction id"
+    };
+
+    var updatedFines = Array.map<Fine, Fine>(
+      fines,
+      func(f : Fine) {
+        if (f.letterNumber == letterNumber) {
+          if (f.status != newStatus) {
+            changeLogs := Array.append(changeLogs, [{ letterNumber = f.letterNumber; fieldChanged = changed; oldStatus = f.status; newStatus = newStatus; oldTrans = f.transactionId; newTrans = newTransactionId; updatedAt = currentTime }]);
+
+            updated := true;
+
+            return {
+              letterNumber = f.letterNumber;
+              institution = f.institution;
+              address = f.address;
+              callCenter = f.callCenter;
+              name = f.name;
+              date = f.date;
+              penaltyType = f.penaltyType;
+              totalFine = f.totalFine;
+              TNKB = f.TNKB;
+              vehicleType = f.vehicleType;
+              merk = f.merk;
+              status = newStatus;
+              transactionId = switch (newTransactionId) {
+                case (?txId) ?txId;
+                case null f.transactionId
+              };
+              vehicleColor = f.vehicleColor;
+              createdAt = f.createdAt
+            }
+          }
+        };
+        return f
+      },
+    );
+
+    if (updated) {
+      fines := updatedFines
+    };
+
+    return updated
   };
 
 }
