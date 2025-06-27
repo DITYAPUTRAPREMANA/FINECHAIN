@@ -94,7 +94,7 @@ const FinesPage = () => {
             </div>
             <TanstackTable<Fine> columns={columns} data={filteredData} pageIndex={pageIndex}/>
             <div className={isLoading ? 'flex w-full justify-center py-8' : 'hidden'}>
-                <img src="/download.jpeg" alt="" className='size-24 animate-spin' />
+                <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
             </div>
             <div className="w-full flex items-center justify-between text-[#145374] text-lg md:text-xl font-bold">
                 <p className="max-w-28 md:max-w-full">
