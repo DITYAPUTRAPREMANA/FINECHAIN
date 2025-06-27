@@ -1,11 +1,14 @@
 import React, { ReactNode, useState } from 'react'
 import { Bars3Icon } from '@heroicons/react/24/solid'
+import { NavLink, useLocation } from 'react-router'
 
 type TemplateProps = {
   children: ReactNode
 }
 
 const Template = ({ children }: TemplateProps) => {
+  const location = useLocation();
+  const activedRoute = location.pathname === "/";
   var [actived, setActived] = useState(
     '-right-[calc(75%+32px)] md:-right-[calc(60%+32px)]'
   )
@@ -17,8 +20,8 @@ const Template = ({ children }: TemplateProps) => {
     isActive
       ? setActived((actived = 'right-8'))
       : setActived(
-          (actived = '-right-[calc(75%+24px)] md:-right-[calc(60%+24px)]')
-        )
+        (actived = '-right-[calc(75%+24px)] md:-right-[calc(60%+24px)]')
+      )
   }
 
   return (
@@ -29,18 +32,18 @@ const Template = ({ children }: TemplateProps) => {
             <img src="/finechain_logo.svg" alt="" className="w-full" />
           </div>
           <div className="hidden lg:flex items-center gap-12 text-xl">
-            <a href="" className="hover:opacity-80">
+            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#1790C5]" : "hover:opacity-80"}>
               Home
-            </a>
-            <a href="" className="hover:opacity-80">
+            </NavLink>
+            <NavLink to="/fines" className={({ isActive }) => isActive ? "text-[#1790C5]" : "hover:opacity-80"}>
               Fines
-            </a>
-            <a href="" className="hover:opacity-80">
+            </NavLink>
+            <NavLink to="/payments" className={({ isActive }) => isActive ? "text-[#1790C5]" : "hover:opacity-80"}>
               Payment
-            </a>
-            <a href="" className="hover:opacity-80">
+            </NavLink>
+            <NavLink to="/history" className={({ isActive }) => isActive ? "text-[#1790C5]" : "hover:opacity-80"}>
               History
-            </a>
+            </NavLink>
           </div>
           {/* <div className="w-10 h-10 rounded-full bg-orange-500">
                     </div> */}
