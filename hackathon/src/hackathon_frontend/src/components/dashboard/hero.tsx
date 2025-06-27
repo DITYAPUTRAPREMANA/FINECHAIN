@@ -1,4 +1,3 @@
-
 const HeroDashboard = () => {
     return (
         <div className="relative w-full h-[calc(100vh-80px)] bg-[url('/images/finechain_hero.png')] bg-cover">
