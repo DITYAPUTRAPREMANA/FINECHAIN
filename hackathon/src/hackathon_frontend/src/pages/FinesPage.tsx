@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import TanstackTable from "../components/tanstack-table";
+import TanstackTable from "../components/ui/tanstack-table";
 
 import {
     ColumnDef,
@@ -14,8 +14,8 @@ type Fine = {
     callCenter: string
 }
 
-const FinesDashboard = () => {
-    const { fines, textFines, isLoading, handleAddFines, fetchLatestData } = useFineController();
+const FinesPage = () => {
+    const { fines, isLoading, handleAddFines } = useFineController();
     const [pageIndex, setPageIndex] = useState(0);
     const pageSize = 10;
 
@@ -57,8 +57,8 @@ const FinesDashboard = () => {
 
     useEffect(() => {
         if (!hasFetched.current) {
-            fetchLatestData();
             hasFetched.current = true;
+            // localStorage.clear();
             handleAddFines();
         }
     }, []);
@@ -80,19 +80,19 @@ const FinesDashboard = () => {
     const maxPage = Math.ceil(filteredData.length / pageSize);
 
     return (
-        <div className="max-w-screen my-24 space-y-8 w-full py-14 px-8 lg:px-20 bg-gradient-to-br from-[#B4B4B4]/35 to-[#FFE0BD]/35 backdrop-blur-3xl shadow-lg">
+        <div className="max-w-screen mt-8 mb-20 space-y-8 w-full py-14 px-8 lg:px-20 bg-gradient-to-br from-[#B4B4B4]/35 to-[#FFE0BD]/35 backdrop-blur-3xl shadow-lg">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between text-[#145374] gap-4">
                 <h1 className="font-bold text-3xl">
                     Indonesian Fine List
                 </h1>
                 <div className="flex justify-end">
-                    <form action="" className="flex gap-1">
-                        <label className="w-full lg:w-fit">Search</label>
+                    <form action="" className="flex items-center gap-2">
+                        <label className="w-full lg:w-fit text-xl">Search</label>
                         <input type="text" placeholder="Search fines here..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full lg:w-fit py-2 px-3 bg-[#FFF1E2]/65 rounded-lg border-2 border-[#145374] text-xl" />
                     </form>
                 </div>
             </div>
-            <TanstackTable<Fine> columns={columns} data={filteredData} pageIndex={pageIndex} />
+            <TanstackTable<Fine> columns={columns} data={filteredData} pageIndex={pageIndex}/>
             <div className={isLoading ? 'flex w-full justify-center py-8' : 'hidden'}>
                 <img src="/download.jpeg" alt="" className='size-24 animate-spin' />
             </div>
@@ -109,4 +109,4 @@ const FinesDashboard = () => {
     );
 };
 
-export default FinesDashboard;
+export default FinesPage;
