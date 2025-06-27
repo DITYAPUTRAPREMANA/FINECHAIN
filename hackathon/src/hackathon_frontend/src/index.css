@@ -1,5 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-navy: #145374;
+  --font-roboto: 'Roboto', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-roboto);
+}
+
+.soft-bounce {
+  animation: softBounce 5.5s ease-in-out infinite;
+}
+
+@keyframes softBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-50px);
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            
+}
+
+.card {
+  border: 8px solid #DCDCDC;
+
+  background: linear-gradient(125deg, rgba(40, 40, 40, 0.30) 0%, rgba(128, 128, 128, 0.30) 100%);
+
+  backdrop-filter: blur(120px);
 }
