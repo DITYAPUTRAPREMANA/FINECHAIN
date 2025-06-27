@@ -16,9 +16,9 @@ export function useFirebaseController() {
         vehicleType: string;
         merk: string;
         status: string;
+        transactionId: string | null | undefined;
         vehicleColor: string;
     };
-
 
     function getLastSyncTime(): bigint {
         const data = localStorage.getItem("lastSync");
