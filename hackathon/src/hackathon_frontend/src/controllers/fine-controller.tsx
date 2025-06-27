@@ -1,6 +1,6 @@
 import { hackathon_backend } from 'declarations/hackathon_backend';
 import { useEffect, useState } from "react";
-import { useFirebaseController } from "../controllers/firebase-controller";
+import { useFirebaseController } from "./firebase-controller";
 
 type BackendFine = Awaited<ReturnType<typeof hackathon_backend.getFines>>[number];
 
@@ -22,16 +22,18 @@ export function useFineController() {
             return;
         }
 
-        const backendFines = await hackathon_backend.getFines();
+        if (firebaseFines.length > 0) {
+            const backendFines = await hackathon_backend.getFines();
 
-        const existingLetterNumbers = new Set(backendFines.map(f => f.letterNumber));
+            const existingLetterNumbers = new Set(backendFines.map(f => f.letterNumber));
 
-        const newFines = firebaseFines.filter(f => !existingLetterNumbers.has(f.letterNumber));
-        const convertedFines = newFines as BackendFine[];
+            const newFines = firebaseFines.filter(f => !existingLetterNumbers.has(f.letterNumber));
+            const convertedFines = newFines as BackendFine[];
 
-        await Promise.all(
-            convertedFines.map(f => hackathon_backend.addFine(f))
-        );
+            await Promise.all(
+                convertedFines.map(f => hackathon_backend.addFine(f))
+            );
+        }
 
         await fetchFines();
         setIsLoading(false);
@@ -41,7 +43,7 @@ export function useFineController() {
         const result = await hackathon_backend.getFines();
         setFines(result);
     };
-    
+
     const fetchLatestData = async () => {
         await hackathon_backend.getDataFromFirebase();
         const result = await hackathon_backend.getLatestData();
