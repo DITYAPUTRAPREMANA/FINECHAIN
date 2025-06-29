@@ -3,7 +3,6 @@ import { AuthClient } from '@dfinity/auth-client';
 import { createActor } from 'declarations/hackathon_backend';
 import { canisterId } from 'declarations/hackathon_backend/index.js';
 import Logo from 'hackathon_frontend/asset/logo.png'; 
-import GoogleLogo from 'hackathon_frontend/asset/google.png';
 import { useGoogleLogin } from '@react-oauth/google';
 
 interface AppState {
