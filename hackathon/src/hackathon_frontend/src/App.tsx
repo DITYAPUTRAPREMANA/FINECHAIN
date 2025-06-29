@@ -3,7 +3,6 @@ import { AuthClient } from '@dfinity/auth-client';
 import { createActor } from 'declarations/hackathon_backend';
 import { canisterId } from 'declarations/hackathon_backend/index.js';
 import Logo from 'hackathon_frontend/asset/logo.png'; 
-import { useGoogleLogin } from '@react-oauth/google';
 
 interface AppState {
   actor: any;
@@ -96,17 +95,7 @@ const App: React.FC = () => {
       }));
     }
   };
-
-  // Google login handler
-  const googleLogin = useGoogleLogin({
-    onSuccess: credentialResponse => {
-      console.log(credentialResponse);
-    },
-    onError: () => {
-      console.log('Login Failed');
-    },
-  });
-
+  
   return (
 <div className="min-w-screen min-h-screen flex flex-col justify-center items-center">
   <div className="fixed w-[345px] h-[355px] bg-[#9DD9D2] blur-[110px] left-44 top-12 z-10 soft-bounce"></div>
