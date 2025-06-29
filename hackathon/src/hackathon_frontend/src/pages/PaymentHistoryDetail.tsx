@@ -16,11 +16,12 @@ const PaymentHistoryDetail = () => {
     const loadData = async () => {
       if (!id) {
         setError("ID not found in URL.");
-        setLoading(false);
+        setLoading(true);
         return;
       }
 
       try {
+        setLoading(true);
         const detail = await fetchFineDetails(id);
         setFineDetail(detail);
       } catch (err) {
@@ -34,6 +35,11 @@ const PaymentHistoryDetail = () => {
     loadData();
   }, []);
 
+
+  if (loading) return <div className='flex w-full justify-center py-8'>
+    <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
+  </div>;
+  
   const exportToPDF = () => {
     if (!fineDetail) return;
 
@@ -66,7 +72,9 @@ const PaymentHistoryDetail = () => {
     doc.save(`Fine_${fineDetail.letterNumber}.pdf`);
   };
 
-  if (loading) return <div className="p-8 text-2xl text-cyan-800">Loading...</div>;
+  if (loading) return <div className='flex w-full justify-center py-8'>
+    <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
+  </div>;
   if (error || !fineDetail) return <div className="p-8 text-xl text-red-600">{error}</div>;
 
   const formattedPrice = new Intl.NumberFormat("id-ID", {

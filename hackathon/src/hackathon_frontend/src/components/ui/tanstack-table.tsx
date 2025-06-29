@@ -62,7 +62,7 @@ function TanstackTable<T>({ columns, data, pageIndex}: TableProps<T>) {
                                 </td>
                             ))}
                             <td className='border-3 border-white p-2 md:p-4 bg-white/5 backdrop-blur-md'>
-                                <NavLink to={`/history/${row.getAllCells()[1]?.getValue()}`} className='flex items-center gap-0.5 md:gap-2 rounded-2xl bg-[#145374] p-1 md:py-2 md:pl-2 md:pr-3 text-white hover:bg-[#145374]/70 cursor-pointer'>
+                                <NavLink to={`/history-detail/${row.getAllCells()[1]?.getValue()}`} className='flex items-center gap-0.5 md:gap-2 rounded-2xl bg-[#145374] p-1 md:py-2 md:pl-2 md:pr-3 text-white hover:bg-[#145374]/70 cursor-pointer'>
                                     <InformationCircleIcon className="size-6 md:size-8" />
                                     <span>Detail</span>
                                 </NavLink>

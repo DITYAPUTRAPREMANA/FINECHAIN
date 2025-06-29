@@ -9,6 +9,7 @@ import FinesPage from './pages/FinesPage'
 import TicketPaymentCheckoutPage from './pages/TicketPaymentCheckoutPage'
 import PaymentHistoryDetail from './pages/PaymentHistoryDetail'
 import FeatureDashboard from './components/dashboard/features'
+import DashboardPage from './pages/DashboardPage'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element not found')
@@ -19,15 +20,12 @@ ReactDOM.createRoot(rootElement).render(
       <Template>
         <Routes>
           <Route path="/" element={
-            <>
-              <HeroDashboard />
-              <FeatureDashboard />
-            </>
+            <DashboardPage />
           } />
           <Route path="/fines" element={<FinesPage />} />
           <Route path="/payments" element={<PaymentPage />} />
-          <Route path="/payment-history" element={<PaymentHistoryPage />} />
-          <Route path="/history/:id" element={<PaymentHistoryDetail />} />
+          <Route path="/history" element={<PaymentHistoryPage />} />
+          <Route path="/history-detail/:id" element={<PaymentHistoryDetail />} />
           <Route
             path="/payments/checkout"
             element={<TicketPaymentCheckoutPage />}

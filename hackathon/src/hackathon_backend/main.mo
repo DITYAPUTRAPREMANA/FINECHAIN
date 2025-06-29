@@ -5,6 +5,7 @@ import Debug "mo:base/Debug";
 import Blob "mo:base/Blob";
 import Text "mo:base/Text";
 import Time "mo:base/Time";
+import Option "mo:base/Option";
 import IC "ic:aaaaa-aa";
 
 actor {
@@ -22,7 +23,7 @@ actor {
     vehicleType : Text;
     merk : Text;
     status : Text;
-    transactionId : ?Text;
+    transactionId : Text;
     vehicleColor : Text;
     createdAt : Int
   };
@@ -94,20 +95,22 @@ actor {
   public type ChangeLog = {
     letterNumber : Text;
     fieldChanged : Text;
-    oldValue : Text;
-    newValue : Text;
-    updatedAt : Int
+    oldStatus : Text;
+    newStatus : Text;
+    oldTrans : Text;
+    newTrans : Text;
+    updatedAt : Int;
   };
 
   stable var changeLogs : [ChangeLog] = [];
 
-  public func updateFineStatus(letterNumber : Text, newStatus : Text, newTransactionId : ?Text) : async Bool {
+  public func updateFineStatus(letterNumber : Text, newStatus : Text, newTransactionId : Text) : async Bool {
     var updated = false;
     let currentTime = Time.now() / 1_000_000;
     var changed = "status";
 
-    if (Option.isSome(newTransactionId)) {
-      changed := "status and transaction id"
+    if (newTransactionId == "empty") {
+      changed := "status and transaction id";
     };
 
     var updatedFines = Array.map<Fine, Fine>(
@@ -132,10 +135,7 @@ actor {
               vehicleType = f.vehicleType;
               merk = f.merk;
               status = newStatus;
-              transactionId = switch (newTransactionId) {
-                case (?txId) ?txId;
-                case null f.transactionId
-              };
+              transactionId = newTransactionId;
               vehicleColor = f.vehicleColor;
               createdAt = f.createdAt
             }

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import TanstackTable from '../components/tanstack-table';
+import TanstackTable from '../components/ui/tanstack-table';
 import {hackathon_backend} from 'declarations/hackathon_backend';   
 import {
     ColumnDef,
@@ -171,7 +171,7 @@ const PaymentHistoryDashboard = () => {
     useEffect(() => {
         const fetchFines = async () => {
             try {
-                const fines = await hackathon_backend.getAllFines();
+                const fines = await hackathon_backend.getFines();
                 setPaidFinesData(fines.map(fine => ({
                     letterNumber: fine.letterNumber,
                     institution: fine.institution,
@@ -188,8 +188,8 @@ const PaymentHistoryDashboard = () => {
     const maxPage = Math.ceil(paidFinesData.length / pageSize);
     
     return (
-        <div className="w-full h-full p-8 md:p-14">
-            <div className="w-full h-full py-10 px-8 lg:px-12 bg-gradient-to-br from-[#E0F7FA}/70 to-[#FFF8E1]/70 backdroo-blur-md shadow-lg rounded-3xl space-y-8 border-2 border-white/50">
+        <div className="w-full h-full my-20">
+            <div className="w-full h-full py-12 px-8 lg:px-20 bg-gradient-to-br from-[#E0F7FA]/70 to-[#FFF8E1]/70 backdrop-blur-xl shadow-lg rounded-3xl space-y-8 border-2 border-white/50">
 
                 {/* Header with search bar */}
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between text-[#145374] gap-4">

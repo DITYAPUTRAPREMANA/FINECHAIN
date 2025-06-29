@@ -58,7 +58,7 @@ const FinesPage = () => {
     useEffect(() => {
         if (!hasFetched.current) {
             hasFetched.current = true;
-            // localStorage.clear();
+            localStorage.clear();
             handleAddFines();
         }
     }, []);
@@ -85,14 +85,14 @@ const FinesPage = () => {
                 <h1 className="font-bold text-3xl">
                     Indonesian Fine List
                 </h1>
-                <div className="flex justify-end">
-                    <form action="" className="flex items-center gap-2">
-                        <label className="w-full lg:w-fit text-xl">Search</label>
-                        <input type="text" placeholder="Search fines here..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full lg:w-fit py-2 px-3 bg-[#FFF1E2]/65 rounded-lg border-2 border-[#145374] text-xl" />
-                    </form>
-                </div>
+
+                <form action="" className="flex items-center gap-2">
+                    <label className="text-xl">Search</label>
+                    <input type="text" placeholder="Search fines here..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full lg:w-fit py-2 px-3 bg-[#FFF1E2]/65 rounded-lg border-2 border-[#145374] text-xl" />
+                </form>
+
             </div>
-            <TanstackTable<Fine> columns={columns} data={filteredData} pageIndex={pageIndex}/>
+            <TanstackTable<Fine> columns={columns} data={filteredData} pageIndex={pageIndex} />
             <div className={isLoading ? 'flex w-full justify-center py-8' : 'hidden'}>
                 <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
             </div>
