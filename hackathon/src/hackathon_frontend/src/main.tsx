@@ -3,29 +3,35 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Template from './layout/main'
 import PaymentPage from './pages/PaymentPage'
-import HeroDashboard from './sections/hero'
-import FinesDashboard from './sections/fines'
+import PaymentHistoryPage from './pages/PaymentHistoryPage'
+import HeroDashboard from './components/dashboard/hero'
+import FinesPage from './pages/FinesPage'
 import TicketPaymentCheckoutPage from './pages/TicketPaymentCheckoutPage'
 import PaymentHistoryDetail from './pages/PaymentHistoryDetail'
+import FeatureDashboard from './components/dashboard/features'
+import DashboardPage from './pages/DashboardPage'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element not found')
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <Template>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Template>
         <Routes>
-          <Route path="/" element={<HeroDashboard />} />
+          <Route path="/" element={
+            <DashboardPage />
+          } />
+          <Route path="/fines" element={<FinesPage />} />
           <Route path="/payments" element={<PaymentPage />} />
+          <Route path="/history" element={<PaymentHistoryPage />} />
+          <Route path="/history-detail/:id" element={<PaymentHistoryDetail />} />
           <Route
             path="/payments/checkout"
             element={<TicketPaymentCheckoutPage />}
           />
-          <Route path="/fines" element={<FinesDashboard />} />
-          <Route path="/history" element={<PaymentHistoryDetail />} />
         </Routes>
-      </BrowserRouter>
-    </Template>
+      </Template>
+    </BrowserRouter>
   </React.StrictMode>
 )

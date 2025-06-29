@@ -1,23 +1,13 @@
 import { HttpAgent, Actor } from "@dfinity/agent";
 import { hackathon_backend } from "declarations/hackathon_backend";
 
+export type BackendFine = Awaited<ReturnType<typeof hackathon_backend.getFineDetail>>[number];
+
 // TypeScript type to match Motoko data structure
 export type FineStatus = "Waiting for Payment" | "Paid" | "Expired";
 
-export type FineDetails = {
-  letterNumber: string;
-  name: string;
-  tnkb: string;
-  date: string;
-  penaltyType: string;
-  totalFine: string;
-  paymentMethod: string;
-  accountNumber: string;
-  status: FineStatus;
-};
-
 // Motoko type returned from the canister (status is a variant object like: { WaitingForPayment: null })
-type RawFineDetails = Omit<FineDetails, "status"> & {
+type RawFineDetails = Omit<BackendFine, "status"> & {
   status: { [key: string]: null };
 };
 
@@ -25,13 +15,17 @@ type RawFineDetails = Omit<FineDetails, "status"> & {
 const agent = new HttpAgent();
 // await agent.fetchRootKey(); // only for local dev
 
-export const fineActor = hackathon_backend.getFineDetail()
-
 // Utility to fetch and convert the Motoko result
-export async function fetchFineDetails(): Promise<FineDetails> {
-  const result = await fineActor as RawFineDetails;
+export async function fetchFineDetails(letterNumber: string): Promise<BackendFine> {
+  const result = await hackathon_backend.getFineDetail(letterNumber);
 
-  const statusKey = Object.keys(result.status)[0]; // e.g. "Paid"
+  if (!Array.isArray(result) || result.length === 0) {
+    throw new Error("Fine detail not found");
+  }
+
+  const raw: BackendFine = result[0]; // Ambil item pertama
+
+  const statusKey = Object.keys(raw.status)[0]; // e.g. "Paid"
   const statusMap: Record<string, FineStatus> = {
     WaitingForPayment: "Waiting for Payment",
     Paid: "Paid",
@@ -39,7 +33,8 @@ export async function fetchFineDetails(): Promise<FineDetails> {
   };
 
   return {
-    ...result,
+    ...raw,
     status: statusMap[statusKey] ?? "Waiting for Payment",
   };
 }
+

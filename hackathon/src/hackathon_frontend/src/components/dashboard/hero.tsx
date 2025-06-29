@@ -1,8 +1,7 @@
-
 const HeroDashboard = () => {
     return (
-        <div className="relative w-full h-[calc(100vh-80px)] bg-[url('/images/finechain_hero.png')] bg-cover">
-            <div className="relative z-40 w-full h-full px-8 md:px-20 flex justify-center lg:justify-between items-center bg-black/25">
+        <div className="relative w-full h-[calc(100vh-50px)] bg-[url('/images/finechain_hero.png')] bg-cover rounded-b-4xl shadow-2xl">
+            <div className="relative z-40 w-full h-full px-8 md:px-20 flex justify-center lg:justify-between items-center bg-black/25 rounded-b-4xl">
                 <div className="flex flex-col justify-center lg:justify-start items-center lg:items-start gap-12 text-white">
                     <h1 className="text-[40px] md:text-7xl text-center lg:text-left font-bold leading-[1]">
                         Next Generation <br/>

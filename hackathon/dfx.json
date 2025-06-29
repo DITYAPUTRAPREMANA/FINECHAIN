@@ -2,7 +2,12 @@
   "canisters": {
     "hackathon_backend": {
       "main": "src/hackathon_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "extra": {
+        "dfx": {
+          "canister_http": true
+        }
+      }
     },
     "transaction": {
       "main": "src/transaction/main.mo",
@@ -22,5 +27,11 @@
     }
   },
   "output_env_file": ".env",
+  "version": 1,
+  "dependencies": {
+    "base": "https://github.com/dfinity/motoko-base#master",
+    "serde": "https://github.com/dfinity/motoko-serde#master"
+  }
+}
   "version": 1
 }
