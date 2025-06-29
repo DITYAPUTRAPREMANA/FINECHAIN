@@ -1,35 +1,64 @@
 import { useEffect, useState } from 'react'
 import PaymentCheckoutCard from '../components/payment/PaymentCheckoutCard'
 import { transaction } from 'declarations/transaction'
+import { useNavigate, useParams } from 'react-router'
+import { hackathon_backend } from 'declarations/hackathon_backend'
 
 export default function TicketPaymentCheckoutPage() {
-  const [ticket, setTicket] = useState<null | Ticket>(null)
+  const { ticketNumber } = useParams()
+  const [ticket, setTicket] = useState<Ticket | null>(null)
+  const navigate = useNavigate()
+
+  // Get dummy data
+  // useEffect(() => {
+  //   transaction
+  //     .getTicket()
+  //     .then((ticket) => {
+  //       setTicket({
+  //         ...ticket,
+  //         amount: Number(ticket.amount),
+  //         date: Number(ticket.date),
+  //       })
+  //     })
+  //     .catch((e) => {
+  //       console.log('Error', e)
+  //     })
+  // }, [])
 
   useEffect(() => {
-    transaction
-      .getTicket()
-      .then((ticket) => {
-        setTicket({
-          ...ticket,
-          amount: Number(ticket.amount),
-          date: Number(ticket.date),
-        })
+    hackathon_backend
+      .getFineDetail(ticketNumber || '')
+      .then((data) => {
+        if (data.length === 0) {
+          alert('Invalid ticket number!')
+          navigate('/payments')
+        } else {
+          return data[0]
+        }
+      })
+      .then((fine) => {
+        if (fine)
+          setTicket({
+            ...fine,
+            totalFine: Number(fine.totalFine),
+            createdAt: Number(fine.createdAt),
+          })
       })
       .catch((e) => {
-        console.log('Error', e)
+        alert('Something went wrong. Please try again later.')
       })
-  }, [])
+  }, [ticketNumber, navigate])
 
   return (
     <section className="min-h-[calc(100dvh-80px)] h-full flex justify-center items-center">
       {ticket && (
         <PaymentCheckoutCard
-          id={ticket.id}
+          id={ticket.letterNumber}
           name={ticket.name}
-          amount={ticket.amount}
-          tnkb={ticket.tnkb}
-          penalty={ticket.penalty}
-          date={ticket.date}
+          amount={ticket.totalFine}
+          tnkb={ticket.TNKB}
+          penalty={ticket.penaltyType}
+          date={ticket.createdAt}
         />
       )}
     </section>

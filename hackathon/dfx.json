@@ -33,5 +33,3 @@
     "serde": "https://github.com/dfinity/motoko-serde#master"
   }
 }
-  "version": 1
-}

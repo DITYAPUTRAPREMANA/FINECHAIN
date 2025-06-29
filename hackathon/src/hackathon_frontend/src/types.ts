@@ -1,8 +1,17 @@
 interface Ticket {
-  id: string
+  letterNumber: string
+  institution: string
+  address: string
+  callCenter: string
   name: string
-  amount: number
-  tnkb: string
-  penalty: string
-  date: number
+  date: string
+  penaltyType: string
+  TNKB: string
+  totalFine: number
+  vehicleType: string
+  merk: string
+  status: string
+  transactionId: string
+  vehicleColor: string
+  createdAt: number
 }

@@ -19,15 +19,16 @@ ReactDOM.createRoot(rootElement).render(
     <BrowserRouter>
       <Template>
         <Routes>
-          <Route path="/" element={
-            <DashboardPage />
-          } />
+          <Route path="/" element={<DashboardPage />} />
           <Route path="/fines" element={<FinesPage />} />
           <Route path="/payments" element={<PaymentPage />} />
           <Route path="/history" element={<PaymentHistoryPage />} />
-          <Route path="/history-detail/:id" element={<PaymentHistoryDetail />} />
           <Route
-            path="/payments/checkout"
+            path="/history-detail/:id"
+            element={<PaymentHistoryDetail />}
+          />
+          <Route
+            path="/payments/checkout/:ticketNumber"
             element={<TicketPaymentCheckoutPage />}
           />
         </Routes>

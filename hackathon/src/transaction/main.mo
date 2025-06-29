@@ -9,50 +9,49 @@ import Array "mo:base/Array";
 import Nat "mo:base/Nat";
 import IC "ic:aaaaa-aa";
 
-
 actor Transactor {
   // Dummy datas
   type Ticket = {
-     id : Text;
-    name: Text;
-    amount: Int;
-    tnkb: Text;
+    id : Text;
+    name : Text;
+    amount : Int;
+    tnkb : Text;
     penalty : Text;
-    date: Int;
+    date : Int
   };
-  
+
   let ticket = {
     id : Text = Int.toText(Time.now());
-    name: Text = "Gus Ryan";
-    amount: Int = 100000;
-    tnkb: Text = "DK1121AX";
+    name : Text = "Gus Ryan";
+    amount : Int = 100000;
+    tnkb : Text = "DK1121AX";
     penalty : Text = "DUI";
-    date: Int = 1750823978;
-  }; 
+    date : Int = 1750823978
+  };
 
   public query func getTicket() : async Ticket {
-    return ticket;
+    return ticket
   };
 
   type Transaction = {
-    id: Text;
-    amount: Nat;
-    xendit_id: Text;
-    ticket_id: Text;
-    status: Text;
-    created_at: Nat;
-    updated_at: Nat;
-    expiry_date: Nat;
+    id : Text;
+    amount : Nat;
+    xendit_id : Text;
+    ticket_id : Text;
+    status : Text;
+    created_at : Nat;
+    updated_at : Nat;
+    expiry_date : Nat
   };
 
   var transactions : TrieMap.TrieMap<Text, Transaction> = TrieMap.TrieMap(Text.equal, Text.hash);
 
   public func addTransaction(t : Transaction) : async () {
-    transactions.put(t.id, t);
+    transactions.put(t.id, t)
   };
 
   public query func getTransactionById(id : Text) : async ?Transaction {
-    return transactions.get(id);
+    return transactions.get(id)
   };
 
   public query func getTransactions() : async [Transaction] {
@@ -62,16 +61,16 @@ actor Transactor {
   //function to transform the response
   public query func transform({
     context : Blob;
-    response : IC.http_request_result;
+    response : IC.http_request_result
   }) : async IC.http_request_result {
     {
       response with headers = []; // not intersted in the headers
-    };
+    }
   };
 
   //PULIC METHOD
   //This method sends a POST request to a URL with a free API we can test.
-  public func craeteInvoice({id : Text; amount : Text; payment_method : Text}) : async Text {
+  public func craeteInvoice({ id : Text; amount : Text; payment_method : Text }) : async Text {
 
     //1. SETUP ARGUMENTS FOR HTTP GET request
 
@@ -87,14 +86,24 @@ actor Transactor {
     let request_headers = [
       { name = "User-Agent"; value = "http_post_sample" },
       { name = "Content-Type"; value = "application/json" },
-      { name = "Authorization"; value = "Basic eG5kX2RldmVsb3BtZW50X2FXZzhnRFZieUFmZVE5SURQWTNyY2ZoN3Qxc1VZZDlyT0dCYUM4a1htWm1yNFlXRnJBMHF0bTZpZVI2ZWI5Og==" },
+      {
+        name = "Authorization";
+        value = "Basic eG5kX2RldmVsb3BtZW50X2FXZzhnRFZieUFmZVE5SURQWTNyY2ZoN3Qxc1VZZDlyT0dCYUM4a1htWm1yNFlXRnJBMHF0bTZpZVI2ZWI5Og=="
+      },
       // { name = "Idempotency-Key"; value = idempotency_key },
     ];
 
     // The request body is a Blob, so we do the following:
     // 1. Write a JSON string
     // 2. Convert Text into a Blob
-    let request_body_json : Text = "{\"external_id\":\"" # id # "\",\"amount\":" # amount # ",\"payer_email\":\"customer@domain.com\",\"description\":\"InvoiceDemo#123\",\"payment_methods\":[\"" # payment_method # "\"],\"currency\":\"IDR\"}";
+    let request_body_json : Text = "{\"external_id\":\"" # id #
+    "\",\"amount\":" # amount #
+    ",\"payer_email\":\"customer@domain.com\""
+    # ",\"description\":\"InvoiceDemo#123\""
+    # ",\"payment_methods\":[\"" # payment_method # "\"]"
+    # ",\"currency\":\"IDR\""
+    # ",\"success_redirect_url\":\"http://uzt4z-lp777-77774-qaabq-cai.localhost:4943/history-detail/" # id # "\"}";
+
     let request_body = Text.encodeUtf8(request_body_json);
 
     // 1.3 The HTTP request
@@ -107,8 +116,8 @@ actor Transactor {
       method = #post;
       transform = ?{
         function = transform;
-        context = Blob.fromArray([]);
-      };
+        context = Blob.fromArray([])
+      }
     };
 
     //2. ADD CYCLES TO PAY FOR HTTP REQUEST
@@ -117,7 +126,7 @@ actor Transactor {
     //See: https://internetcomputer.org/docs/current/motoko/main/cycles
 
     //The way Cycles.add() works is that it adds those cycles to the next asynchronous call
-    //See: 
+    //See:
     // - https://internetcomputer.org/docs/current/references/ic-interface-spec/#ic-http_request
     // - https://internetcomputer.org/docs/current/references/https-outcalls-how-it-works#pricing
     // - https://internetcomputer.org/docs/current/developer-docs/gas-cost
@@ -143,11 +152,11 @@ actor Transactor {
     //  2. We use a switch to explicitly call out both cases of decoding the Blob into ?Text
     let decoded_text : Text = switch (Text.decodeUtf8(http_response.body)) {
       case (null) { "No value returned" };
-      case (?y) { y };
+      case (?y) { y }
     };
 
     //5. RETURN RESPONSE OF THE BODY
     let result : Text = decoded_text;
-    result;
-  };
-};
+    result
+  }
+}
