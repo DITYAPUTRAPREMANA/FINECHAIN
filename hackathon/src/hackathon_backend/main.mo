@@ -7,9 +7,13 @@ import Text "mo:base/Text";
 import Time "mo:base/Time";
 import Option "mo:base/Option";
 import IC "ic:aaaaa-aa";
+import Principal "mo:base/Principal";
 
 actor {
-
+  public query (message) func whoami() : async Principal {
+    message.caller
+  };
+  
   public type Fine = {
     letterNumber : Text;
     institution : Text;

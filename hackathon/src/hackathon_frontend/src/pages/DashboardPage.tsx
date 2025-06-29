@@ -4,7 +4,6 @@ import HeroDashboard from "../components/dashboard/hero";
 import { useFineController } from "../controllers/fine-controller";
 
 const DashboardPage = () => {
-
     return (
         <div>
             <HeroDashboard />

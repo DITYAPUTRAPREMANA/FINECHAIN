@@ -1,12 +1,14 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, useEffect } from 'react'
 import { Bars3Icon } from '@heroicons/react/24/solid'
-import { NavLink, useLocation } from 'react-router'
+import { NavLink, useLocation, useNavigate } from 'react-router'
 
 type TemplateProps = {
   children: ReactNode
 }
 
 const Template = ({ children }: TemplateProps) => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   var [actived, setActived] = useState(
     '-right-[calc(75%+32px)] md:-right-[calc(60%+32px)]'
@@ -22,6 +24,15 @@ const Template = ({ children }: TemplateProps) => {
         (actived = '-right-[calc(75%+24px)] md:-right-[calc(60%+24px)]')
       )
   }
+
+  const [isLogin, setIsLogin] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    setUserId(storedUserId);
+    setIsLogin(storedUserId !== null);
+  }, [location]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
@@ -44,11 +55,13 @@ const Template = ({ children }: TemplateProps) => {
               History
             </NavLink>
           </div>
-          {/* <div className="w-10 h-10 rounded-full bg-orange-500">
-                    </div> */}
+          <div className={isLogin ? 'flex gap-2 items-center' : 'hidden'}>
+            <h2 className='font-bold uppercase p-2 bg-white rounded-full border-2 border-[#145374]'>{userId?.substring(0, 8) ?? ''}</h2>
+            <button onClick={() => (localStorage.removeItem("userId"), navigate("/login"))} className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-200 border-2 border-[#145374]"></button>
+          </div>
           <a
-            href=""
-            className="group relative hidden lg:flex px-10 py-1.5 items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-xl font-bold text-xl shadow-lg transition-all duration-500 hover:-translate-y-0.5"
+            href="/login"
+            className={!isLogin ? "group relative hidden lg:flex px-10 py-1.5 items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-xl font-bold text-xl shadow-lg transition-all duration-500 hover:-translate-y-0.5" : "hidden"}
           >
             <span className="relative z-20">Sign In</span>
             <div className="absolute left-0 -top-20 w-full h-80 bg-[linear-gradient(90deg,_#FEF7EF_18.75%,_#F4D06F_67.31%,_#F81_92.31%)] transition-all duration-500 ease-in-out group-hover:rotate-180"></div>
@@ -72,10 +85,10 @@ const Template = ({ children }: TemplateProps) => {
             Explore <br /> Finechain
           </h1>
           <a
-            href=""
+            href="/login"
             className="group relative w-fit px-6 py-3 flex items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-xl font-bold text-xl shadow-lg transition-all duration-500 hover:-translate-y-0.5"
           >
-            <span className="relative z-20 text-[#145374]">Sign In</span>
+            <span className="relative z-20 text-[#145374]">Login</span>
             <div className="absolute left-0 -top-20 w-full h-80 bg-[linear-gradient(90deg,_#FEF7EF_18.75%,_#F4D06F_67.31%,_#F81_92.31%)] transition-all duration-500 ease-in-out group-hover:rotate-180"></div>
           </a>
         </div>
