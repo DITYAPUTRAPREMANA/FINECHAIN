@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+
+import { fetchFineDetails, FineDetails } from "../components/history/historyUtils";
+import { generateReceiptPDF } from "../components/history/generateReceiptPDF";
+import jsPDF from "jspdf";
 import { useParams } from "react-router";
 import { fetchFineDetails, BackendFine } from "../components/history/historyUtils"; // Adjust path as needed
 
@@ -30,6 +34,43 @@ const PaymentHistoryDetail = () => {
 
     loadData();
   }, []);
+
+
+  if (loading) return <div className='flex w-full justify-center py-8'>
+    <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
+  </div>;
+  
+  const exportToPDF = () => {
+    if (!fineDetail) return;
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("Proof of Fine Payment", 20, 20);
+
+    doc.setFontSize(12);
+    let y = 40;
+    const lineSpacing = 10;
+
+    const rows = [
+      ["Letter Number", fineDetail.letterNumber],
+      ["Name", fineDetail.name],
+      ["TNKB", fineDetail.tnkb],
+      ["Date", fineDetail.date],
+      ["Type of Penalty", fineDetail.penaltyType],
+      ["Total Fine", fineDetail.totalFine],
+      ["Payment Method", fineDetail.paymentMethod],
+      ["Account Number", fineDetail.accountNumber],
+      ["Status", fineDetail.status],
+    ];
+
+    rows.forEach(([label, value]) => {
+      doc.text(`${label}: ${value}`, 20, y);
+      y += lineSpacing;
+    });
+
+    doc.save(`Fine_${fineDetail.letterNumber}.pdf`);
+  };
 
   if (loading) return <div className='flex w-full justify-center py-8'>
     <img src="/footer_ornament.svg" alt="" className='size-36 animate-spin' />
@@ -92,14 +133,13 @@ const PaymentHistoryDetail = () => {
             <DetailRow label="paymentMethod" value={"fineDetail.accountNumber"} />
           </div>
         </div>
-
-        <a
-          href="#"
-          className="group relative mb-10 w-[452px] py-3 px-6 flex items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-full font-bold text-2xl text-cyan-800 shadow-lg transition-all duration-500 hover:-translate-y-0.5"
+        <button
+          onClick={() => fineDetail && generateReceiptPDF(fineDetail)}
+          className="group relative mt-10 mb-20 w-[452px] py-3 px-6 flex items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-full font-bold text-3xl text-cyan-800 shadow-lg transition-all duration-500 hover:-translate-y-0.5"
         >
           <span className="relative z-20">Export Proof of Payment</span>
-          <div className="absolute left-0 -top-20 w-full h-screen bg-[linear-gradient(90deg,_#FEF7EF_18.75%,_#F4D06F_67.31%,_#FF8811_92.31%)] transition-all duration-500 ease-in-out group-hover:rotate-180"></div>
-        </a>
+          <div className="absolute left-0 -top-20 w-full h-80 bg-[linear-gradient(90deg,_#FEF7EF_18.75%,_#F4D06F_67.31%,_#FF8811_92.31%)] transition-all duration-500 ease-in-out group-hover:rotate-180"></div>
+        </button>
       </div>
     </div>
   );
