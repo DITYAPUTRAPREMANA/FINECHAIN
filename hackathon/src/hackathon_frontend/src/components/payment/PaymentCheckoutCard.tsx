@@ -11,6 +11,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { joiResolver } from '@hookform/resolvers/joi'
 import { transaction } from 'declarations/transaction'
 import { getUnixTime } from 'date-fns'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 const paymentMethods = [
   {
@@ -45,9 +47,10 @@ export default function PaymentCheckoutCard({
   penalty: string
   date: number
 }) {
+  const navigate = useNavigate()
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     watch,
     setValue,
@@ -88,6 +91,8 @@ export default function PaymentCheckoutCard({
           created_at: BigInt(getUnixTime(new Date())),
           updated_at: BigInt(getUnixTime(new Date())),
         })
+
+        location.replace(invoice.invoice_url)
       })
       .catch((error) => {
         console.log(error)
@@ -155,6 +160,7 @@ export default function PaymentCheckoutCard({
       </div>
 
       <button
+        disabled={isSubmitting}
         type="submit"
         className="cursor-pointer group relative w-full flex px-10 py-1.5 items-center justify-center bg-[#FEF7EF] overflow-hidden border-2 border-white rounded-xl font-bold text-xl shadow-lg transition-all duration-500 hover:-translate-y-0.5"
       >

@@ -69,7 +69,7 @@ actor {
       }
     };
 
-    Cycles.add(2_000_000_000);
+    Cycles.add(30_000_000_000);
 
     let response = await IC.http_request(http_request);
 
@@ -99,7 +99,7 @@ actor {
     newStatus : Text;
     oldTrans : Text;
     newTrans : Text;
-    updatedAt : Int;
+    updatedAt : Int
   };
 
   stable var changeLogs : [ChangeLog] = [];
@@ -110,7 +110,7 @@ actor {
     var changed = "status";
 
     if (newTransactionId == "empty") {
-      changed := "status and transaction id";
+      changed := "status and transaction id"
     };
 
     var updatedFines = Array.map<Fine, Fine>(
