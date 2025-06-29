@@ -16,7 +16,7 @@ export function useFirebaseController() {
         vehicleType: string;
         merk: string;
         status: string;
-        transactionId: string | null | undefined;
+        transactionId: string;
         vehicleColor: string;
     };
 

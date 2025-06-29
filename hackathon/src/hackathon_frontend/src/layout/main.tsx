@@ -8,7 +8,6 @@ type TemplateProps = {
 
 const Template = ({ children }: TemplateProps) => {
   const location = useLocation();
-  const activedRoute = location.pathname === "/";
   var [actived, setActived] = useState(
     '-right-[calc(75%+32px)] md:-right-[calc(60%+32px)]'
   )
@@ -82,30 +81,38 @@ const Template = ({ children }: TemplateProps) => {
         </div>
         <div className="w-[calc(100%-80px)] h-0.5 bg-white/50 rounded-full"></div>
         <div className="w-full flex flex-col text-xl md:text-2xl font-semibold pb-5">
-          <a
-            href=""
-            className="w-full h-20 px-10 flex items-center hover:bg-white/30"
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              (isActive ? "text-[#F81]" : "hover:bg-white/30") + " w-full h-20 px-10 flex items-center"
+            }
           >
             Home
-          </a>
-          <a
-            href=""
-            className="w-full h-20 px-10 flex items-center hover:bg-white/30"
+          </NavLink>
+          <NavLink
+            to="/fines"
+            className={({ isActive }) =>
+              (isActive ? "text-[#F81]" : "hover:bg-white/30") + " w-full h-20 px-10 flex items-center"
+            }
           >
             Fines
-          </a>
-          <a
-            href=""
-            className="w-full h-20 px-10 flex items-center hover:bg-white/30"
+          </NavLink>
+          <NavLink
+            to="/payments"
+            className={({ isActive }) =>
+              (isActive ? "text-[#F81]" : "hover:bg-white/30") + " w-full h-20 px-10 flex items-center"
+            }
           >
             Payment
-          </a>
-          <a
-            href=""
-            className="w-full h-20 px-10 flex items-center hover:bg-white/30"
+          </NavLink>
+          <NavLink
+            to="/history"
+            className={({ isActive }) =>
+              (isActive ? "text-[#F81]" : "hover:bg-white/30") + " w-full h-20 px-10 flex items-center"
+            }
           >
             History
-          </a>
+          </NavLink>
         </div>
       </nav>
       <main className="max-w-[1728px] w-full flex z-10">

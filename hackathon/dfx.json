@@ -2,7 +2,12 @@
   "canisters": {
     "hackathon_backend": {
       "main": "src/hackathon_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "extra": {
+        "dfx": {
+          "canister_http": true
+        }
+      }
     },
     "hackathon_frontend": {
       "dependencies": [
