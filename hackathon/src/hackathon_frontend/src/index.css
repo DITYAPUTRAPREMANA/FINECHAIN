@@ -21,3 +21,34 @@ html {
 body {
   font-family: var(--font-roboto);
 }
+
+.soft-bounce {
+  animation: softBounce 5.5s ease-in-out infinite;
+}
+
+@keyframes softBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-50px);
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            
+}
+
+.card {
+  border: 8px solid #DCDCDC;
+
+  background: linear-gradient(125deg, rgba(40, 40, 40, 0.30) 0%, rgba(128, 128, 128, 0.30) 100%);
+
+  backdrop-filter: blur(120px);
+}
