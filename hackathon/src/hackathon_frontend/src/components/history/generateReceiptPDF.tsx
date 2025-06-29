@@ -1,8 +1,8 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { saveAs } from "file-saver"; 
-import { FineDetails } from "../history/historyUtils";
+import { BackendFine } from "../history/historyUtils";
 
-export async function generateReceiptPDF(fine: FineDetails) {
+export async function generateReceiptPDF(fine: BackendFine) {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([400, 600]);
   const { width, height } = page.getSize();
@@ -31,18 +31,18 @@ export async function generateReceiptPDF(fine: FineDetails) {
   const infoRows = [
     ["Letter Number", fine.letterNumber],
     ["Name", fine.name],
-    ["TNKB", fine.tnkb],
+    ["TNKB", fine.TNKB],
     ["Date", fine.date],
     ["Type of Penalty", fine.penaltyType],
     ["Total Fine", fine.totalFine],
-    ["Payment Method", fine.paymentMethod],
-    ["Account Number", fine.accountNumber],
+    ["Payment Method", "fine.paymentMethod"],
+    ["Account Number", "fine.accountNumber"],
     ["Status", fine.status],
   ];
 
   infoRows.forEach(([label, value]) => {
     drawText(`${label}:`, 11, 40, y, true);
-    drawText(value, 11, 150, y);
+    drawText(String(value), 11, 150, y);
     y -= 20;
   });
 
